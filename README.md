@@ -65,8 +65,8 @@ El enfoque no aborda la detección del riesgo suicida como una tarea de clasific
 | `Agrupacion_usuarios.ipynb` | Etapa 7 | Construcción del dataset a nivel de usuario. |
 | `Eval_LLM_SuicideRisk.ipynb` | Etapa 8 | Análisis de validación por expertos. Calcula métricas de acuerdo y matriz de confusión entre las predicciones automáticas y las anotaciones de profesionales de salud mental. |
 | `LLM_Interests.ipynb` | Etapa 9 | Categorización de intereses. Asigna hasta 10 etiquetas de interés por usuario positivo validado a partir de una taxonomía de 198 temas usando Gemini Flash Lite. |
-| `EDA_LLM_Interests.ipynb` | Etapa 9 | Análisis exploratorio de los resultados de categorización de intereses. Visualizaciones de las principales categorías de interés en la población de usuarios validados. |
-| `LLM_Demographics.ipynb` | Etapa 10 | Inferencia demográfica. Estima el género y el rango de edad por usuario a partir de publicaciones anonimizadas y `profile_bio` generalizada. Utiliza Gemini Flash Lite. |
+| `EDA_LLM_Interests.ipynb` | Etapa 10 | Análisis exploratorio de los resultados de categorización de intereses. Visualizaciones de las principales categorías de interés en la población de usuarios validados. |
+| `LLM_Demographics.ipynb` | Etapa 11 | Inferencia demográfica. Estima el género y el rango de edad por usuario a partir de publicaciones anonimizadas y `profile_bio` generalizada. Utiliza Gemini Flash Lite. |
 
 ---
 
@@ -93,7 +93,7 @@ El enfoque no aborda la detección del riesgo suicida como una tarea de clasific
 
 ### APIs necesarias
 - Clave API de [twitterapi.io](https://twitterapi.io) — para la recopilación de tweets (Etapas 1 y 3).
-- Clave API de Google Gemini — para las Etapas 5, 6, 8 y 9.
+- Clave API de Google Gemini — para las Etapas 5, 6, 9 y 11.
 
 ### Dependencias Python (instaladas automáticamente en la Celda 1 de `Pipeline.ipynb`)
 
