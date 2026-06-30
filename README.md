@@ -141,7 +141,7 @@ DEBUG_KEYWORDS = ["tengo ansiedad", "no puedo parar de llorar",
 ### Reanudación de sesión interrumpida
 
 ```python
-SESSION_OFFSET = 150   # omite los primeros 150 usuarios ya procesados
+SESSION_OFFSET = 150 # omite los primeros 150 usuarios ya procesados
 ```
 
 Un archivo de checkpoint en formato JSONL almacenado en Google Drive (`CHECKPOINT_PATH`) guarda los registros anonimizados tras cada usuario, permitiendo reanudar el proceso entre sesiones.
