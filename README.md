@@ -8,9 +8,9 @@ Desarrollado en el marco del proyecto **STOP** (*Suicide prevenTion in sOcial Pl
 
 ## Descripción general
 
-Este repositorio contiene la implementación completa de un pipeline integral y preservador de privacidad basado en Modelos de Lenguaje de Gran Tamaño (LLMs) para la detección y caracterización de usuarios de redes sociales que pueden presentar indicadores de ideación suicida, con pleno cumplimiento del Reglamento General de Protección de Datos (RGPD).
+Este repositorio contiene la implementación completa de un pipeline integral y preservador de privacidad basado en Modelos de Lenguaje de Gran Tamaño (LLMs) para la detección y caracterización de usuarios de redes sociales que pueden presentar indicadores de ideación suicida, con cumplimiento del Reglamento General de Protección de Datos (RGPD).
 
-El enfoque no aborda la detección del riesgo suicida como una tarea de clasificación aislada, sino que integra múltiples tareas de inferencia basadas en LLMs dentro de un flujo de trabajo unificado: desde la recopilación y anonimización de datos hasta la evaluación del riesgo, la validación por expertos y la caracterización de la población objetivo para el diseño de campañas de prevención.
+El enfoque no aborda la detección del riesgo suicida como una tarea de clasificación aislada, sino que integra múltiples tareas de inferencia basadas en LLMs dentro de un flujo de trabajo unificado: desde la recopilación y anonimización de datos hasta la evaluación del riesgo, la validación por expertos y la caracterización de la población objetivo para el diseño de una campaña piloto de prevención.
 
 ### Resultados principales
 
@@ -31,17 +31,17 @@ El enfoque no aborda la detección del riesgo suicida como una tarea de clasific
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
-│  1. Recopilación de datos     Publicaciones X (2020–2025) · keywords     │
+│  1. Recopilación de datos     Publicaciones X (2020–2025, ESP) · keywords│
 │  2. LLM_UserType              Individual vs. Organización  [Gemma 3 12B] │
-│  3. Descarga de historial     Hasta 100 publicaciones recientes          │
-│  4. Anonimización             Regex → Presidio+BERT → LLaMA 3 8B        │
+│  3. Descarga de historial     Hasta últimas 100 publicaciones            │
+│  4. Anonimización             Regex → Presidio+BERT → LLaMA 3 8B         │
 │     + Generalización bio      profile_bio → semántica → ES→FR            │
-│  5. LLM_MH                   Cribado salud mental  Positivo / Control   │
-│  6. LLM_SuicideRisk          Riesgo suicida  Positivo / Dudoso / Neg.   │
+│  5. LLM_MH                    Cribado salud mental  Positivo / Control   │
+│  6. LLM_SuicideRisk           Riesgo suicida  Positivo / Dudoso / Neg.   │
 │  7. Validación por expertos   Revisión por profesionales de salud mental │
-│  8. LLM_Interests            Categorización de intereses (198 temas)    │
-│  9. LLM_Demographics         Inferencia de género y rango de edad       │
-│ 10. Campaña (futuro)         Campaña piloto en TikTok (15 días)         │
+│  8. LLM_Interests             Categorización de intereses (198 temas)    │
+│  9. LLM_Demographics          Inferencia de género y rango de edad       │
+│ 10. Campaña (futuro)          Campaña piloto en TikTok (15 días)         │
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -59,14 +59,14 @@ El enfoque no aborda la detección del riesgo suicida como una tarea de clasific
 
 | Notebook / Archivo | Etapa del pipeline | Descripción |
 |---|---|---|
-| `Pipeline.ipynb` | Etapas 1–5 | **Pipeline unificado principal.** Recopilación de datos, filtrado por tipo de usuario, descarga del historial, anonimización multicapa (Regex → Presidio+BERT → LLaMA 3 8B) y generalización semántica de `profile_bio`. Cumplimiento RGPD: los datos personales crudos nunca se escriben en disco. |
+| `Pipeline.ipynb` | Etapas 1–4 | **Pipeline unificado principal.** Recopilación de datos, filtrado por tipo de usuario, descarga del historial, anonimización multicapa (Regex → Presidio+BERT → LLaMA 3 8B) y generalización semántica de `profile_bio`. Cumplimiento RGPD: los datos personales crudos nunca se escriben en disco. |
 | `LLM_SM.py` | Etapa 5 | Script de cribado de salud mental. Clasifica cada publicación anonimizada como **Positivo** (contenido de salud mental en primera persona) o **Control**. Utiliza Gemini Flash Lite. |
 | `LLM_SuicideRisk.ipynb` | Etapa 6 | Clasificación del riesgo suicida a nivel de usuario. Concatena cronológicamente las publicaciones positivas de cada usuario y asigna **Positivo / Dudoso / Negativo**. Utiliza Gemini Flash Lite. |
-| `Eval_LLM_SuicideRisk.ipynb` | Etapa 7 | Análisis de validación por expertos. Calcula métricas de acuerdo y matriz de confusión entre las predicciones automáticas y las anotaciones de profesionales de salud mental. |
-| `LLM_Interests.ipynb` | Etapa 8 | Categorización de intereses. Asigna hasta 10 etiquetas de interés por usuario positivo validado a partir de una taxonomía de 198 temas usando Gemini Flash Lite. |
-| `EDA_LLM_Interests.ipynb` | Etapa 8 | Análisis exploratorio de los resultados de categorización de intereses. Visualizaciones de las principales categorías de interés en la población de usuarios validados. |
-| `LLM_Demographics.ipynb` | Etapa 9 | Inferencia demográfica. Estima el género y el rango de edad por usuario a partir de publicaciones anonimizadas y `profile_bio` generalizada. Utiliza Gemini Flash Lite. |
-| `Agrupacion_usuarios.ipynb` | Etapa 10 | Agrupación de usuarios y segmentación de audiencias. Combina la demografía inferida y los intereses para definir criterios de segmentación para campañas de prevención. |
+| `Agrupacion_usuarios.ipynb` | Etapa 7 | Construcción del dataset a nivel de usuario. |
+| `Eval_LLM_SuicideRisk.ipynb` | Etapa 8 | Análisis de validación por expertos. Calcula métricas de acuerdo y matriz de confusión entre las predicciones automáticas y las anotaciones de profesionales de salud mental. |
+| `LLM_Interests.ipynb` | Etapa 9 | Categorización de intereses. Asigna hasta 10 etiquetas de interés por usuario positivo validado a partir de una taxonomía de 198 temas usando Gemini Flash Lite. |
+| `EDA_LLM_Interests.ipynb` | Etapa 9 | Análisis exploratorio de los resultados de categorización de intereses. Visualizaciones de las principales categorías de interés en la población de usuarios validados. |
+| `LLM_Demographics.ipynb` | Etapa 10 | Inferencia demográfica. Estima el género y el rango de edad por usuario a partir de publicaciones anonimizadas y `profile_bio` generalizada. Utiliza Gemini Flash Lite. |
 
 ---
 
@@ -75,7 +75,7 @@ El enfoque no aborda la detección del riesgo suicida como una tarea de clasific
 | Modelo | Rol | Despliegue |
 |---|---|---|
 | **Gemma 3 12B Instruct** (`unsloth/gemma-3-12b-it`) | Clasificación tipo de usuario · Generalización bio | Local (HuggingFace, cuantización 4-bit NF4) |
-| **LLaMA 3 8B Instruct** (`llama3`) | Detección residual de PII (Etapa 4c) | Local (Ollama, sin token HuggingFace) |
+| **LLaMA 3 8B Instruct** (`llama3`) | Detección residual de PII (*Personally Identifiable Information*) (Etapa 4c) | Local (Ollama, sin token HuggingFace) |
 | **BERT multilingüe NER** (`Davlan/bert-base-multilingual-cased-ner-hrl`) | Reconocimiento de entidades nombradas (Presidio) | Local (HuggingFace) |
 | **Helsinki-NLP MarianMT** | Normalización de idioma + traducción ES→FR | Local (HuggingFace) |
 | **Gemini 2.0 Flash Lite** | Cribado salud mental · Riesgo suicida · Intereses · Demografía | Nube (Google AI API) |
@@ -92,8 +92,8 @@ El enfoque no aborda la detección del riesgo suicida como una tarea de clasific
 - Se recomienda Google Colab (Pro o Pro+) para ejecutar `Pipeline.ipynb`
 
 ### APIs necesarias
-- Clave API de [twitterapi.io](https://twitterapi.io) — para la recopilación de tweets (Etapas 1 y 3)
-- Clave API de Google Gemini — para las Etapas 5, 6, 8 y 9
+- Clave API de [twitterapi.io](https://twitterapi.io) — para la recopilación de tweets (Etapas 1 y 3).
+- Clave API de Google Gemini — para las Etapas 5, 6, 8 y 9.
 
 ### Dependencias Python (instaladas automáticamente en la Celda 1 de `Pipeline.ipynb`)
 
@@ -117,9 +117,9 @@ curl -fsSL https://ollama.com/install.sh | sh
 3. **Celda 2** — Configurar los parámetros:
    ```python
    TWITTER_API_KEY = "tu_clave_aquí"
-   DEBUG_MODE      = False   # True = modo prueba (3 fechas, 4 keywords, 2 usuarios)
-   MAX_USERS_DEBUG = None    # None = todos los usuarios
-   SWAP_MODELS     = True    # True para T4; False para A100
+   DEBUG_MODE = False # True = modo prueba (3 fechas, 4 keywords, 2 usuarios)
+   MAX_USERS_DEBUG = None # None = todos los usuarios
+   SWAP_MODELS = True # True para T4; False para A100
    ```
 4. **Celda 3** — Definición de funciones (ejecutar sin modificar).
 5. **Celda 4** — Montar Google Drive y cargar todos los modelos (Gemma, Presidio+BERT, traductores Helsinki, Ollama/LLaMA).
@@ -131,10 +131,10 @@ Para validar el pipeline de extremo a extremo sin consumir créditos de API:
 
 ```python
 # Celda 2
-DEBUG_MODE           = True
-MAX_USERS_DEBUG      = 2
+DEBUG_MODE = True
+MAX_USERS_DEBUG = 2
 DEBUG_SPECIFIC_DATES = ["2023-03-28", "2022-11-22", "2020-12-23"]
-DEBUG_KEYWORDS       = ["tengo ansiedad", "no puedo parar de llorar",
+DEBUG_KEYWORDS = ["tengo ansiedad", "no puedo parar de llorar",
                         "sin ganas de vivir", "Suicida"]
 ```
 
@@ -166,7 +166,6 @@ Pedro-Botet, L., Pujadas, A., & Nuñez, W. J. (2026).
 Pipeline integral basado en modelos de lenguaje de gran tamaño para la detección
 del riesgo de suicidio y la caracterización de perfiles vulnerables en redes sociales
 desde un enfoque de IA responsable.
-Proyecto STOP — Suicide prevenTion in sOcial Platforms.
 ```
 
 ---
