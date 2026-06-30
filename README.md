@@ -19,9 +19,9 @@ El enfoque no aborda la detección del riesgo suicida como una tarea de clasific
 | Anonimización (Arquitectura B) | Recall | 0,93 |
 | Anonimización (Arquitectura B) | Precisión | 0,81 |
 | Cribado de salud mental | Publicaciones positivas | 2,24% de 103.334 |
-| Riesgo suicida — Usuarios Positivos | — | 11,59% (72/621) |
-| Riesgo suicida — Usuarios Dudosos | — | 53,46% (332/621) |
-| Acuerdo expertos con el pipeline | — | 68,56% (277/404) |
+| Riesgo suicida - Usuarios Positivos | - | 11,59% (72/621) |
+| Riesgo suicida - Usuarios Dudosos | - | 53,46% (332/621) |
+| Acuerdo expertos con el pipeline | - | 68,56% (277/404) |
 | Usuarios positivos validados | Género (femenino) | 58% |
 | Usuarios positivos validados | Edad 18–34 | 78% |
 
@@ -51,7 +51,7 @@ El enfoque no aborda la detección del riesgo suicida como una tarea de clasific
 |---|---|---|---|---|
 | A | Presidio + spaCy | LLaMA 3 8B | 0,91 | 0,43 |
 | **B (seleccionada)** | **Presidio + BERT** | **LLaMA 3 8B** | **0,93** | **0,81** |
-| C | — | Gemma 3 12B (directo) | 0,92 | 0,62 |
+| C | - | Gemma 3 12B (directo) | 0,92 | 0,62 |
 
 ---
 
@@ -87,13 +87,13 @@ El enfoque no aborda la detección del riesgo suicida como una tarea de clasific
 ## Requisitos
 
 ### Hardware
-- **Mínimo:** GPU NVIDIA T4 (15 GB VRAM) — requiere `SWAP_MODELS=True` en `Pipeline.ipynb`
-- **Recomendado:** GPU NVIDIA A100 (40 GB VRAM) — establecer `SWAP_MODELS=False`
+- **Mínimo:** GPU NVIDIA T4 (15 GB VRAM) - requiere `SWAP_MODELS=True` en `Pipeline.ipynb`
+- **Recomendado:** GPU NVIDIA A100 (40 GB VRAM) - establecer `SWAP_MODELS=False`
 - Se recomienda Google Colab (Pro o Pro+) para ejecutar `Pipeline.ipynb`
 
 ### APIs necesarias
-- Clave API de [twitterapi.io](https://twitterapi.io) — para la recopilación de tweets (Etapas 1 y 3).
-- Clave API de Google Gemini — para las Etapas 5, 6, 9 y 11.
+- Clave API de [twitterapi.io](https://twitterapi.io) - para la recopilación de tweets (Etapas 1 y 3).
+- Clave API de Google Gemini - para las Etapas 5, 6, 9 y 11.
 
 ### Dependencias Python (instaladas automáticamente en la Celda 1 de `Pipeline.ipynb`)
 
@@ -113,17 +113,17 @@ curl -fsSL https://ollama.com/install.sh | sh
 ### Ejecución del pipeline completo (`Pipeline.ipynb`)
 
 1. Abrir `Pipeline.ipynb` en Google Colab con runtime de GPU habilitado.
-2. **Celda 1** — Instalar todas las dependencias. Tras la ejecución, hacer **Runtime → Reiniciar sesión**.
-3. **Celda 2** — Configurar los parámetros:
+2. **Celda 1** - Instalar todas las dependencias. Tras la ejecución, hacer **Runtime → Reiniciar sesión**.
+3. **Celda 2** - Configurar los parámetros:
    ```python
    TWITTER_API_KEY = "tu_clave_aquí"
    DEBUG_MODE = False # True = modo prueba (3 fechas, 4 keywords, 2 usuarios)
    MAX_USERS_DEBUG = None # None = todos los usuarios
    SWAP_MODELS = True # True para T4; False para A100
    ```
-4. **Celda 3** — Definición de funciones (ejecutar sin modificar).
-5. **Celda 4** — Montar Google Drive y cargar todos los modelos (Gemma, Presidio+BERT, traductores Helsinki, Ollama/LLaMA).
-6. **Celda 5** — Ejecutar `run_pipeline()`. Resultado: DataFrame `df_final` (anonimizado, conforme al RGPD).
+4. **Celda 3** - Definición de funciones (ejecutar sin modificar).
+5. **Celda 4** - Montar Google Drive y cargar todos los modelos (Gemma, Presidio+BERT, traductores Helsinki, Ollama/LLaMA).
+6. **Celda 5** - Ejecutar `run_pipeline()`. Resultado: DataFrame `df_final` (anonimizado, conforme al RGPD).
 
 ### Modo debug / prueba rápida
 
